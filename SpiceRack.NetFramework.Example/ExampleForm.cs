@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using SpiceRack.NetFramework.Example.DataAccess;
+using SpiceRack.NetFramework.Example.DataAccess.Context;
+using SpiceRack.NetFramework.Example.DataAccess.Repository;
+using SpiceRack.NetFramework.Example.Model.Database;
 
 namespace SpiceRack.NetFramework.Example
 {
@@ -21,6 +23,8 @@ namespace SpiceRack.NetFramework.Example
             CreateDatabase();
             SeedProductionData();
             SeedDebugData();
+            CreateShop();
+            ReadShop();
         }
 
         private void CreateDatabase()
@@ -72,6 +76,51 @@ namespace SpiceRack.NetFramework.Example
                 ProvideFeedback("Seeding Debug Data");
                 _exampleDatabaseContext.SeedDebugData();
                 ProvideFeedback("Seeded Debug Data");
+            }
+            catch (Exception e)
+            {
+                ProvideFeedback(e.Message);
+            }
+        }
+
+        private void CreateShop()
+        {
+            try
+            {
+                ProvideFeedback("Creating Shop");
+
+                using (var shopRepository = new ShopRepository())
+                {
+                    var shop = shopRepository.Create(new Shop
+                    {
+                        Name = "Example Shop 5",
+                        AreaId = 2
+                    });
+
+                    ProvideFeedback($"Created ShopId: {shop.ShopId}");
+                }
+            }
+            catch (Exception e)
+            {
+                ProvideFeedback(e.Message);
+            }
+        }
+
+        private void ReadShop()
+        {
+            try
+            {
+                ProvideFeedback("Reading shops");
+
+                using (var shopRepository = new ShopRepository())
+                {
+                    var shops = shopRepository.Read();
+
+                    foreach (var shop in shops)
+                    {
+                        ProvideFeedback($"{shop.Name} located in {shop.Area}");
+                    }
+                }
             }
             catch (Exception e)
             {

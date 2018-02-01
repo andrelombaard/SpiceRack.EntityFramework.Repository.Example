@@ -2,7 +2,7 @@
 using SpiceRack.EntityFrameworkCore.Repository;
 using SpiceRack.NetFramework.Example.Model.Database;
 
-namespace SpiceRack.NetFramework.Example.DataAccess
+namespace SpiceRack.NetFramework.Example.DataAccess.Context
 {
     public class ExampleDatabaseContext : DatabaseContext
     {
@@ -41,6 +41,21 @@ namespace SpiceRack.NetFramework.Example.DataAccess
                         Name = "Cape Town"
                     }
                 );
+
+            Database.ExecuteSqlCommand(@"CREATE PROCEDURE ReadShop
+            AS
+                BEGIN
+
+            SET NOCOUNT ON;
+
+            SELECT
+            S.ShopId,
+            S.Name,
+            A.Name AS 'Area'
+
+            FROM SHOP S
+                JOIN Area A ON A.AreaId = S.AreaId
+            END");
 
             SaveChanges();
         }
