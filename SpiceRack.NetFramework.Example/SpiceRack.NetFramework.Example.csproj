@@ -114,6 +114,7 @@
     <Compile Include="ExampleForm.Designer.cs">
       <DependentUpon>ExampleForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Database\Area.cs" />
     <Compile Include="Model\Database\Shop.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

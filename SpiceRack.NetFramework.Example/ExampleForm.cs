@@ -19,6 +19,8 @@ namespace SpiceRack.NetFramework.Example
         {
             DeleteDatabase();
             CreateDatabase();
+            SeedProductionData();
+            SeedDebugData();
         }
 
         private void CreateDatabase()
@@ -26,7 +28,7 @@ namespace SpiceRack.NetFramework.Example
             try
             {
                 ProvideFeedback("Creating Database: Example");
-                _exampleDatabaseContext.Database.EnsureDeleted();
+                _exampleDatabaseContext.Database.EnsureCreated();
                 ProvideFeedback("Created Database: Example");
             }
             catch (Exception e)
@@ -37,9 +39,44 @@ namespace SpiceRack.NetFramework.Example
 
         private void DeleteDatabase()
         {
-            ProvideFeedback("Deleting Database: Example");
-            _exampleDatabaseContext.Database.EnsureDeleted();
-            ProvideFeedback("Deleted Database: Example");
+            try
+            {
+                ProvideFeedback("Deleting Database: Example");
+                _exampleDatabaseContext.Database.EnsureDeleted();
+                ProvideFeedback("Deleted Database: Example");
+            }
+            catch (Exception e)
+            {
+                ProvideFeedback(e.Message);
+            }
+        }
+
+        private void SeedProductionData()
+        {
+            try
+            {
+                ProvideFeedback("Seeding Production Data");
+                _exampleDatabaseContext.SeedProductionData();
+                ProvideFeedback("Seeded Production Data");
+            }
+            catch (Exception e)
+            {
+                ProvideFeedback(e.Message);
+            }
+        }
+
+        private void SeedDebugData()
+        {
+            try
+            {
+                ProvideFeedback("Seeding Debug Data");
+                _exampleDatabaseContext.SeedDebugData();
+                ProvideFeedback("Seeded Debug Data");
+            }
+            catch (Exception e)
+            {
+                ProvideFeedback(e.Message);
+            }
         }
 
         private void ProvideFeedback(string feedback)
